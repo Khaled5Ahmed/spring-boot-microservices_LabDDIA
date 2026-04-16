@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+package trending;
+
+service TrendingService {
+  rpc GetTopMovies (Empty) returns (MovieList);
+}
+
+message Empty {}
+
+message Movie {
+  string movieId = 1;
+  double rating = 2;
+}
+
+message MovieList {
+  repeated Movie movies = 1;
+}

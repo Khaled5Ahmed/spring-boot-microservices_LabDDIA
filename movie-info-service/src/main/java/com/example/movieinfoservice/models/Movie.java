@@ -1,7 +1,14 @@
+
+
 package com.example.movieinfoservice.models;
 
-public class Movie {
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+@Document(collection = "movies") // Tells Mongo to store this in a "movies" collection
 
+
+public class Movie {
+     @Id
     private String movieId;
     private String name;
     private String description;
@@ -39,3 +46,5 @@ public class Movie {
         this.name = name;
     }
 }
+
+

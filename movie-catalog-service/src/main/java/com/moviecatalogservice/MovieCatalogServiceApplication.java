@@ -16,7 +16,7 @@ import org.springframework.web.client.RestTemplate;
 @EnableHystrixDashboard
 public class MovieCatalogServiceApplication {
 
-    private final int TIMEOUT = 3000;   // 3 seconds
+    private final int TIMEOUT = 5000;   // 3 seconds
 
     @Bean
     @LoadBalanced

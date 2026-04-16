@@ -7,6 +7,8 @@ import com.moviecatalogservice.models.UserRating;
 import com.moviecatalogservice.services.MovieInfoService;
 import com.moviecatalogservice.services.UserRatingService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +18,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import trending.MovieList;
+import com.moviecatalogservice.models.TrendingMovie;
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/catalog")
@@ -47,5 +52,20 @@ public class MovieCatalogResource {
     public List<CatalogItem> getCatalog(@PathVariable String userId) {
         List<Rating> ratings = userRatingService.getUserRating(userId).getRatings();
         return ratings.stream().map(movieInfoService::getCatalogItem).collect(Collectors.toList());
+    }
+
+    @GetMapping("/trending")
+    public List<TrendingMovie> getTrendingMovies() {
+
+        TrendingServiceClient client = new TrendingServiceClient();
+        MovieList response = client.getTopMovies();
+
+        List<TrendingMovie> result = new ArrayList<>();
+
+        for (trending.Movie m : response.getMoviesList()) {
+            result.add(new TrendingMovie(m.getMovieId(), m.getRating()));
+        }
+
+        return result;
     }
 }
